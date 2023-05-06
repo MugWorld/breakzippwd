@@ -57,9 +57,13 @@ def bruteforce1(rar_file):
 
 def bruteforce2(rar_file):
     pool = multiprocessing.Pool()
-    for pwd in range(0,1000):
+    for pwd in range(1694530,9999999999):
         # print("密码破解", pwd)
-        pool.apply_async(extract_zip2, args=(pwd, rar_file))
+        print("密码破解1", pwd)
+        last = pool.apply_async(extract_zip2, args=(pwd, rar_file))
+        if len(pool._cache) > 500:
+            print("waiting for cache to clear...")
+            last.wait()
         # try:
         #     pwdstr = str(pwd)
         #     rar_file.extractall(pwd=pwdstr)
@@ -69,8 +73,11 @@ def bruteforce2(rar_file):
         #     print("An exception occurred:", e)
         #     print("密码破解失败", pwd)
         # pool.apply_async(extract_zip, args=(pwd, zip_file))
+    print("waiting for pool.close1()...")
     pool.close()
+    print("waiting for pool.close()...")
     pool.join()
+    print("waiting for pool.join()...")
 
 def extract_zip2(pwd, rar_file):
     # print("extract_zip", pwd)
@@ -81,6 +88,7 @@ def extract_zip2(pwd, rar_file):
     except Exception as e:
         #print("An exception occurred:", e)
         print("密码破解失败", pwd)
+        return pwd
 def pwdGen(pwdListPath):
     with open(pwdListPath, 'r', encoding="latin-1") as f:
         for line in f:
