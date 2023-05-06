@@ -57,7 +57,7 @@ def bruteforce1(rar_file):
 
 def bruteforce2(rar_file):
     pool = multiprocessing.Pool()
-    for pwd in range(1694530,9999999999):
+    for pwd in range(1717000,9999999999):
         # print("密码破解", pwd)
         print("密码破解1", pwd)
         last = pool.apply_async(extract_zip2, args=(pwd, rar_file))
